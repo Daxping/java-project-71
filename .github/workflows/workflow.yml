@@ -17,6 +17,7 @@ jobs:
         with:
           gradle-version: 7.4
           arguments: build
+          build-root-directory: app
       - name: Test & publish code coverage
         uses: paambaati/codeclimate-action@v3.0.0
         env:
