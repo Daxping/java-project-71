@@ -9,7 +9,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17.0.2'
-          distribution: 'temurin'
+          distribution: 'adopt'
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
       - name: Build with Gradle
@@ -17,12 +17,12 @@ jobs:
         with:
           gradle-version: 7.4
           arguments: build
-          build-root-directory: app
+          build-root-directory: app/
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v3.0.0
         env:
-          CC_TEST_REPORTER_ID: ${{secrets.TEST_REPORTER_ID}}
-          JACOCO_SOURCE_PATH: src/main/java
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+          JACOCO_SOURCE_PATH: app/src/main/java
         with:
           coverageCommand: ./gradlew jacocoTestReport
-          coverageLocations: ${{github.workspace}}/build/reports/jacoco/test/jacocoTestReport.xml:jacoco
+          coverageLocations: ${{github.workspace}}/app/build/reports/jacoco/test/jacocoTestReport.xml:jacoco
