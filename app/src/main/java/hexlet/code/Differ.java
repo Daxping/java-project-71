@@ -17,6 +17,16 @@ public class Differ {
         return result;
     }
 
+    public static String generate(String path1, String path2) throws IOException {
+        Map<String, Object> map1 = Parser.parsing(path1);
+        Map<String, Object> map2 = Parser.parsing(path2);
+
+        String result = Formatter.chooseFormat(map1, map2, "stylish");
+        System.out.println(result);
+
+        return result;
+    }
+
     public static Map<String, String> differ(Map<String, Object> map1, Map<String, Object> map2) {
         Map<String, String> strMap1 = MapConverter.mapToString(map1);
         Map<String, String> strMap2 = MapConverter.mapToString(map2);
