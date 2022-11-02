@@ -1,25 +1,23 @@
 package hexlet.code;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import hexlet.code.formatter.Json;
 import hexlet.code.formatter.Plain;
 import hexlet.code.formatter.Stylish;
-
 import java.util.Map;
 
 public class Formatter {
-    public static String chooseFormat(
-        Map<String, Object> map1, Map<String, Object> map2, String formatName) throws JsonProcessingException {
+    public static String format(
+            Map<String, Object> map1, Map<String, Object> map2,
+            Map<String, String> diffMap, String formatName) throws Exception {
         switch (formatName) {
             case "stylish":
-                return Stylish.formatterStylish(map1, map2);
+                return Stylish.formatterStylish(map1, map2, diffMap);
             case "plain":
-                return Plain.formatterPlain(map1, map2);
+                return Plain.formatterPlain(map1, map2, diffMap);
             case "json":
-                return Json.formatterJson(map1, map2);
+                return Json.formatterJson(map1, map2, diffMap);
             default:
-                System.out.println("Format" + formatName + "is not correct!");
+                throw new Exception("Unknown format: '" + formatName + "'");
         }
-        return Stylish.formatterStylish(map1, map2);
     }
 }

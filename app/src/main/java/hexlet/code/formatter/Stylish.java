@@ -1,19 +1,16 @@
 package hexlet.code.formatter;
 
-import hexlet.code.Differ;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-
 public class Stylish {
-    public static String formatterStylish(Map<String, Object> map1, Map<String, Object> map2) {
-        Map<String, String> diffMap = Differ.differ(map1, map2);
+    public static String formatterStylish(Map<String, Object> map1,
+                                          Map<String, Object> map2, Map<String, String> diffMap) {
+
         List<String> keyList = new ArrayList<>(diffMap.keySet());
         Collections.sort(keyList);
-
         List<String> resultList = new ArrayList<>();
         for (String key : keyList) {
             switch (diffMap.get(key)) {

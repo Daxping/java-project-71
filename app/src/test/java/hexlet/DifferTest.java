@@ -1,16 +1,14 @@
 package hexlet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import hexlet.code.Differ;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 
 public class DifferTest {
 
     @Test
-    public void testJsonWhithoutFormat() throws IOException {
+    public void testJsonWhithoutFormat() throws Exception {
         String result = """
                 {
                     chars1: [a, b, c]
@@ -42,7 +40,7 @@ public class DifferTest {
     }
 
     @Test
-    public void testJsonStylish() throws IOException {
+    public void testJsonStylish() throws Exception {
         String result = """
                 {
                     chars1: [a, b, c]
@@ -74,7 +72,7 @@ public class DifferTest {
     }
 
     @Test
-    public void testYAMLStylish() throws IOException {
+    public void testYAMLStylish() throws Exception {
         String result = """
                 {
                     chars1: [a, b, c]
@@ -106,7 +104,7 @@ public class DifferTest {
     }
 
     @Test
-    public void testJsonPlain() throws IOException {
+    public void testJsonPlain() throws Exception {
         String result = """
                 Property 'chars2' was updated. From [complex value] to false
                 Property 'checked' was updated. From false to true
@@ -126,7 +124,7 @@ public class DifferTest {
     }
 
     @Test
-    public void testYAMLPlain() throws IOException {
+    public void testYAMLPlain() throws Exception {
         String result = """
                 Property 'chars2' was updated. From [complex value] to false
                 Property 'checked' was updated. From false to true
@@ -146,7 +144,7 @@ public class DifferTest {
     }
 
     @Test
-    public void testYAMLJson() throws IOException {
+    public void testYAMLJson() throws Exception {
         String result = "{\"+ id\":null,\"  numbers1\":[1,2,3,4],\"+ numbers4\":[4,5,6],\"- setting2\":200,\""
                 + "- setting1\":\"Some value\",\"- default\":null,\"+ numbers2\":[22,33,44,55],\"- setting3\":true,\"  "
                 + "chars1\":[\"a\",\"b\",\"c\"],\"+ setting1\":\"Another value\",\"+ checked\":true,\"+ setting2\""
@@ -158,7 +156,7 @@ public class DifferTest {
     }
 
     @Test
-    public void testJsonJson() throws IOException {
+    public void testJsonJson() throws Exception {
         String result = "{\"+ id\":null,\"  numbers1\":[1,2,3,4],\"+ numbers4\":[4,5,6],\"- setting2\":200,\""
                 + "- setting1\":\"Some value\",\"- default\":null,\"+ numbers2\":[22,33,44,55],\"- setting3\":true,\"  "
                 + "chars1\":[\"a\",\"b\",\"c\"],\"+ setting1\":\"Another value\",\"+ checked\":true,\"+ setting2\""
