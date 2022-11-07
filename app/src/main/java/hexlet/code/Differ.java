@@ -1,32 +1,35 @@
 package hexlet.code;
 
-import java.io.File;
-import java.util.HashMap;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
-import static hexlet.code.Parser.jsonParsing;
-import static hexlet.code.Parser.yamlParsing;
+import static hexlet.code.Parser.parse;
 import static hexlet.code.Tree.build;
 
 public class Differ {
     public static String generate(String path1, String path2, String formatName) throws Exception {
         Map<String, Object> map1 = getData(path1);
         Map<String, Object> map2 = getData(path2);
-        Map<String, String> diffMap = build(map1, map2);
-        return Formatter.format(map1, map2, diffMap, formatName);
+        Map<String, Object> map = build(map1, map2);
+        return Formatter.format(map, formatName);
     }
 
     public static String generate(String path1, String path2) throws Exception {
         return generate(path1, path2, "stylish");
     }
 
+    public static Path getAbsolutePath(String path) {
+        return Paths.get(path).toAbsolutePath().normalize();
+    }
+
     public static Map<String, Object> getData(String path) throws Exception {
-        File file = new File(path);
-        Map<String, Object> map = new HashMap<>();
+        String fileFormat = "";
         if (path.endsWith(".json")) {
-            map.putAll(jsonParsing(file));
+            fileFormat = "json";
         } else if (path.endsWith(".yml")) {
-            map.putAll(yamlParsing(file));
+            fileFormat = "yml";
         }
-        return map;
+        return parse(new String(Files.readAllBytes(getAbsolutePath(path))), fileFormat);
     }
 }

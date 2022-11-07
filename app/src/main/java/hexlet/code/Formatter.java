@@ -7,15 +7,14 @@ import java.util.Map;
 
 public class Formatter {
     public static String format(
-            Map<String, Object> map1, Map<String, Object> map2,
-            Map<String, String> diffMap, String formatName) throws Exception {
+            Map<String, Object> map, String formatName) throws Exception {
         switch (formatName) {
             case "stylish":
-                return Stylish.formatterStylish(map1, map2, diffMap);
+                return Stylish.formatterStylish(map);
             case "plain":
-                return Plain.formatterPlain(map1, map2, diffMap);
+                return Plain.formatterPlain(map);
             case "json":
-                return Json.formatterJson(map1, map2, diffMap);
+                return Json.formatterJson(map);
             default:
                 throw new Exception("Unknown format: '" + formatName + "'");
         }
