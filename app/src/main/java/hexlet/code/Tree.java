@@ -71,9 +71,7 @@ public class Tree {
                 }
             } else if (key.contains("+ ")) {
                 String key2 = changeKey(key, "+ ", "- ");
-                if (map.containsKey(key2)) {
-                    continue;
-                } else {
+                if (!map.containsKey(key2)) {
                     list.add("Property '" + changeKey(key, "+ ", "") + "' was added with value: "
                             + getCurrentValue(map, key));
                 }
