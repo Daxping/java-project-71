@@ -13,51 +13,51 @@ public class DifferTest {
 
     @Test
     public void testJsonWhithoutFormat() throws Exception {
-        String result = readFixture("testStylish.txt");
-        assertEquals(result, Differ.generate("./src/test/resources/testFile1.json",
-                "./src/test/resources/testFile2.json"));
+        String result = readFixture("result_stylish.txt");
+        assertEquals(result, Differ.generate("./src/test/resources/fixtures/file1_for_test.json",
+                "./src/test/resources/fixtures/file2_for_test.json"));
     }
 
     @Test
     public void testJsonStylish() throws Exception {
-        String result = readFixture("testStylish.txt");
-        assertEquals(result, Differ.generate("./src/test/resources/testFile1.json",
-                "./src/test/resources/testFile2.json", "stylish"));
+        String result = readFixture("result_stylish.txt");
+        assertEquals(result, Differ.generate("./src/test/resources/fixtures/file1_for_test.json",
+                "./src/test/resources/fixtures/file2_for_test.json", "stylish"));
     }
 
     @Test
     public void testYAMLStylish() throws Exception {
-        String result = readFixture("testStylish.txt");
-        assertEquals(result, Differ.generate("./src/test/resources/testFile1.yml",
-                "./src/test/resources/testFile2.yml", "stylish"));
+        String result = readFixture("result_stylish.txt");
+        assertEquals(result, Differ.generate("./src/test/resources/fixtures/file1_for_test.yml",
+                "./src/test/resources/fixtures/file2_for_test.yml", "stylish"));
     }
 
     @Test
     public void testJsonPlain() throws Exception {
-        String result = readFixture("testPlain.txt");
-        assertEquals(result, Differ.generate("./src/test/resources/testFile1.json",
-                "./src/test/resources/testFile2.json", "plain"));
+        String result = readFixture("result_plain.txt");
+        assertEquals(result, Differ.generate("./src/test/resources/fixtures/file1_for_test.json",
+                "./src/test/resources/fixtures/file2_for_test.json", "plain"));
     }
 
     @Test
     public void testYAMLPlain() throws Exception {
-        String result = readFixture("testPlain.txt");
-        assertEquals(result, Differ.generate("./src/test/resources/testFile1.yml",
-                "./src/test/resources/testFile2.yml", "plain"));
+        String result = readFixture("result_plain.txt");
+        assertEquals(result, Differ.generate("./src/test/resources/fixtures/file1_for_test.yml",
+                "./src/test/resources/fixtures/file2_for_test.yml", "plain"));
     }
 
     @Test
     public void testYAMLJson() throws Exception {
-        String result = readFixture("testJson.txt");
-        assertEquals(result, Differ.generate("./src/test/resources/testFile1.yml",
-                "./src/test/resources/testFile2.yml", "json"));
+        String result = readFixture("result_json.txt");
+        assertEquals(result, Differ.generate("./src/test/resources/fixtures/file1_for_test.yml",
+                "./src/test/resources/fixtures/file2_for_test.yml", "json"));
     }
 
     @Test
     public void testJsonJson() throws Exception {
-        String result = readFixture("testJson.txt");
-        assertEquals(result, Differ.generate("./src/test/resources/testFile1.json",
-                "./src/test/resources/testFile2.json", "json"));
+        String result = readFixture("result_json.txt");
+        assertEquals(result, Differ.generate("./src/test/resources/fixtures/file1_for_test.json",
+                "./src/test/resources/fixtures/file2_for_test.json", "json"));
     }
 
     private static Path getFixturePath(String fileName) {

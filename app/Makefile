@@ -10,7 +10,7 @@ install:
 	./gradlew clean install
 
 run-dist:
-	./build/install/app/bin/app build/resources/main/file1.yml build/resources/main/file2.yml
+	./build/install/app/bin/app
 
 run:
 	./gradlew run

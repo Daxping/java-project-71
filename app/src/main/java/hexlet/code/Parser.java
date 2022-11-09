@@ -14,7 +14,7 @@ public class Parser {
             case "yaml":
                 return parseYaml(str);
             default:
-                throw new Exception();
+                throw new Exception("Unknown file format: '" + format + "'");
         }
     }
 
