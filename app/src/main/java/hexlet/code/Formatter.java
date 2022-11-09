@@ -10,11 +10,11 @@ public class Formatter {
             Map<String, Object> map, String formatName) throws Exception {
         switch (formatName) {
             case "stylish":
-                return Stylish.formatterStylish(map);
+                return Stylish.format(map);
             case "plain":
-                return Plain.formatterPlain(map);
+                return Plain.format(map);
             case "json":
-                return Json.formatterJson(map);
+                return Json.format(map);
             default:
                 throw new Exception("Unknown format: '" + formatName + "'");
         }

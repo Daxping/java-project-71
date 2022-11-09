@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Stylish {
-    public static String formatterStylish(Map<String, Object> map) {
+    public static String format(Map<String, Object> map) {
         List<String> list = new LinkedList<>();
         for (Map.Entry<String, Object> pair : map.entrySet()) {
             list.add(pair.getKey() + ": " + pair.getValue());
