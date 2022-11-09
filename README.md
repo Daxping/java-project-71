@@ -1,7 +1,7 @@
 ## Difference Calculator
 Application compares two configuration files and shows a difference.
 Usable formats: json and yml.
-The output can be presented in three formats (watch help: gendiff -h) 
+The output can be presented in three formats.
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/Daxping/java-project-71/workflows/hexlet-check/badge.svg)](https://github.com/Daxping/java-project-71/actions)
 <a href="https://codeclimate.com/github/Daxping/java-project-lvl2/maintainability"><img src="https://api.codeclimate.com/v1/badges/fe8003d9e7aaf7a5f719/maintainability" /></a>
