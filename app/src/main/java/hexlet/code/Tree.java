@@ -21,7 +21,7 @@ public class Tree {
                 treeOfDifference.add(createNode(key, "deleted", firstFileData.get(key), null));
             } else if (!firstFileData.containsKey(key)) {
                 treeOfDifference.add(createNode(key, "added", null, secondFileData.get(key)));
-            } else if (firstFileData.containsKey(key) && secondFileData.containsKey(key)) {
+            } else {
                 if (!isEqual(firstFileData.get(key), secondFileData.get(key))) {
                     treeOfDifference.add(createNode(key, "changed", firstFileData.get(key), secondFileData.get(key)));
                 } else {
