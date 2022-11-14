@@ -2,10 +2,8 @@
 
 package hexlet.code;
 
-import org.apache.commons.lang3.ClassUtils;
-
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,85 +12,54 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Tree {
-    public static Map<String, Object> build(Map<String, Object> map1, Map<String, Object> map2) {
+    public static List<Map<String, Object>> build(Map<String, Object> firstFileData,
+                                                  Map<String, Object> secondFileData) {
+        List<Map<String, Object>> treeOfDifference = new LinkedList<>();
 
-        Map<String, Object> result = new LinkedHashMap<>();
-        Set<String> keys = getSortedKeys(map1, map2);
-        for (String key : keys) {
-            if (map1.containsKey(key) && !map2.containsKey(key)) {
-                result.put("- " + key, map1.get(key));
-            } else if (!map1.containsKey(key) && map2.containsKey(key)) {
-                result.put("+ " + key, map2.get(key));
-            } else if (getDifference(map1, map2, key)) {
-                result.put("- " + key, map1.get(key));
-                result.put("+ " + key, map2.get(key));
-            } else {
-                result.put("  " + key, map2.get(key));
-            }
+        Map<String, Object> unitedData = new HashMap<>();
+        unitedData.putAll(firstFileData);
+        unitedData.putAll(secondFileData);
+
+        if (unitedData.size() == 0) {
+            return treeOfDifference;
         }
-        return result;
-    }
 
-    public static Set<String> getKeys(Map<String, Object> map) {
-        Set<String> keys = new HashSet<>();
-        if (map == null) {
-            return keys;
-        }
-        for (Map.Entry<String, Object> pair : map.entrySet()) {
-            keys.add(pair.getKey());
-        }
-        return keys;
-    }
+        Set<String> sortedKeys = getSortedKeys(unitedData);
 
-    public static Set<String> getSortedKeys(Map<String, Object> map1, Map<String, Object> map2) {
-        Set<String> keys1 = getKeys(map1);
-        Set<String> keys2 = getKeys(map2);
-        keys1.addAll(keys2);
-        return keys1.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new));
-    }
+        for (String key : sortedKeys) {
+            if (!secondFileData.containsKey(key)) {
+                treeOfDifference.add(getNode(key, "deleted", firstFileData.get(key), null));
+            } else if (!firstFileData.containsKey(key)) {
+                treeOfDifference.add(getNode(key, "added", null, secondFileData.get(key)));
+            } else if (firstFileData.containsKey(key) && secondFileData.containsKey(key)) {
+                if (firstFileData.get(key) == null || secondFileData.get(key) == null
+                        ? firstFileData.get(key) != secondFileData.get(key)
+                        : !firstFileData.get(key).equals(secondFileData.get(key))) {
 
-    public static boolean getDifference(Map<String, Object> map1, Map<String, Object> map2, String key) {
-        Object value1 = map1.get(key);
-        Object value2 = map2.get(key);
-        return (value1 == null || value2 == null ? value1 != value2 : !value1.equals(value2));
-    }
-
-    public static List<String> convertToPlain(Map<String, Object> map) {
-        List<String> list = new LinkedList<>();
-        for (Map.Entry<String, Object> pair : map.entrySet()) {
-            String key = pair.getKey();
-            if (key.contains("- ")) {
-                String key2 = changeKey(key, "- ", "+ ");
-                if (map.containsKey(key2)) {
-                    list.add("Property '" + changeKey(key, "- ", "") + "' was updated. From "
-                            + getCurrentValue(map, key) + " to " + getCurrentValue(map, key2));
+                    treeOfDifference.add(getNode(key, "changed", firstFileData.get(key), secondFileData.get(key)));
                 } else {
-                    list.add("Property '" + changeKey(key, "- ", "") + "' was removed");
-                }
-            } else if (key.contains("+ ")) {
-                String key2 = changeKey(key, "+ ", "- ");
-                if (!map.containsKey(key2)) {
-                    list.add("Property '" + changeKey(key, "+ ", "") + "' was added with value: "
-                            + getCurrentValue(map, key));
+                    treeOfDifference.add(getNode(key, "unchanged", firstFileData.get(key), secondFileData.get(key)));
                 }
             }
         }
-        return list;
+        return treeOfDifference;
     }
 
-    public static String changeKey(String key, String target, String replacement) {
-        return key.replace(target, replacement);
+    public static Map<String, Object> getNode(String key, String status, Object oldValue, Object newValue) {
+        Map<String, Object> node = new HashMap<>();
+        node.put("key", key);
+        node.put("status", status);
+        node.put("oldValue", oldValue);
+        node.put("newValue", newValue);
+        return node;
     }
 
-    public static Object getCurrentValue(Map<String, Object> map, String key) {
-        Object currentValue;
-        if (map.get(key) == null || ClassUtils.isPrimitiveOrWrapper(map.get(key).getClass())) {
-            currentValue = map.get(key);
-        } else if (map.get(key) instanceof String) {
-            currentValue = "'" + map.get(key) + "'";
-        } else {
-            currentValue = "[complex value]";
+    public static Set<String> getSortedKeys(Map<String, Object> unitedData) {
+        Set<String> keys = new HashSet<>();
+        for (String key: unitedData.keySet()) {
+            keys.add(key);
         }
-        return currentValue;
+        return keys.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new));
     }
+
 }

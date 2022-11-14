@@ -6,13 +6,13 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import java.util.Map;
 
 public class Parser {
-    public static Map<String, Object> parse(String str, String format) throws Exception {
+    public static Map<String, Object> parse(String fileContent, String format) throws Exception {
         switch (format) {
             case "json":
-                return parseJson(str);
+                return parseJson(fileContent);
             case "yml":
             case "yaml":
-                return parseYaml(str);
+                return parseYaml(fileContent);
             default:
                 throw new Exception("Unknown file format: '" + format + "'");
         }
