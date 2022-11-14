@@ -1,5 +1,3 @@
-
-
 package hexlet.code;
 
 import java.util.HashMap;
@@ -16,36 +14,25 @@ public class Tree {
                                                   Map<String, Object> secondFileData) {
         List<Map<String, Object>> treeOfDifference = new LinkedList<>();
 
-        Map<String, Object> unitedData = new HashMap<>();
-        unitedData.putAll(firstFileData);
-        unitedData.putAll(secondFileData);
-
-        if (unitedData.size() == 0) {
-            return treeOfDifference;
-        }
-
-        Set<String> sortedKeys = getSortedKeys(unitedData);
+        Set<String> sortedKeys = getSortedKeys(firstFileData, secondFileData);
 
         for (String key : sortedKeys) {
             if (!secondFileData.containsKey(key)) {
-                treeOfDifference.add(getNode(key, "deleted", firstFileData.get(key), null));
+                treeOfDifference.add(createNode(key, "deleted", firstFileData.get(key), null));
             } else if (!firstFileData.containsKey(key)) {
-                treeOfDifference.add(getNode(key, "added", null, secondFileData.get(key)));
+                treeOfDifference.add(createNode(key, "added", null, secondFileData.get(key)));
             } else if (firstFileData.containsKey(key) && secondFileData.containsKey(key)) {
-                if (firstFileData.get(key) == null || secondFileData.get(key) == null
-                        ? firstFileData.get(key) != secondFileData.get(key)
-                        : !firstFileData.get(key).equals(secondFileData.get(key))) {
-
-                    treeOfDifference.add(getNode(key, "changed", firstFileData.get(key), secondFileData.get(key)));
+                if (!isEqual(firstFileData.get(key), secondFileData.get(key))) {
+                    treeOfDifference.add(createNode(key, "changed", firstFileData.get(key), secondFileData.get(key)));
                 } else {
-                    treeOfDifference.add(getNode(key, "unchanged", firstFileData.get(key), secondFileData.get(key)));
+                    treeOfDifference.add(createNode(key, "unchanged", firstFileData.get(key), secondFileData.get(key)));
                 }
             }
         }
         return treeOfDifference;
     }
 
-    public static Map<String, Object> getNode(String key, String status, Object oldValue, Object newValue) {
+    public static Map<String, Object> createNode(String key, String status, Object oldValue, Object newValue) {
         Map<String, Object> node = new HashMap<>();
         node.put("key", key);
         node.put("status", status);
@@ -54,12 +41,30 @@ public class Tree {
         return node;
     }
 
-    public static Set<String> getSortedKeys(Map<String, Object> unitedData) {
+    public static Set<String> getSortedKeys(Map<String, Object> firstFileData,
+                                            Map<String, Object> secondFileData) {
         Set<String> keys = new HashSet<>();
+
+        Map<String, Object> unitedData = new HashMap<>();
+        unitedData.putAll(firstFileData);
+        unitedData.putAll(secondFileData);
+
+        if (unitedData.size() == 0) {
+            return keys;
+        }
+
         for (String key: unitedData.keySet()) {
             keys.add(key);
         }
         return keys.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    private static boolean isEqual(Object value1, Object value2) {
+        if (value1 == null || value2 == null) {
+            return value1 == value2;
+        }
+
+        return value1.equals(value2);
     }
 
 }
