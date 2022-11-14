@@ -10,23 +10,21 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Tree {
-    public static List<Map<String, Object>> build(Map<String, Object> firstFileData,
-                                                  Map<String, Object> secondFileData) {
+    public static List<Map<String, Object>> build(Map<String, Object> data1,
+                                                  Map<String, Object> data2) {
         List<Map<String, Object>> treeOfDifference = new LinkedList<>();
 
-        Set<String> sortedKeys = getSortedKeys(firstFileData, secondFileData);
+        Set<String> sortedKeys = getSortedKeys(data1, data2);
 
         for (String key : sortedKeys) {
-            if (!secondFileData.containsKey(key)) {
-                treeOfDifference.add(createNode(key, "deleted", firstFileData.get(key), null));
-            } else if (!firstFileData.containsKey(key)) {
-                treeOfDifference.add(createNode(key, "added", null, secondFileData.get(key)));
+            if (!data2.containsKey(key)) {
+                treeOfDifference.add(createNode(key, "deleted", data1.get(key), null));
+            } else if (!data1.containsKey(key)) {
+                treeOfDifference.add(createNode(key, "added", null, data2.get(key)));
+            } else if (!isEqual(data1.get(key), data2.get(key))) {
+                treeOfDifference.add(createNode(key, "changed", data1.get(key), data2.get(key)));
             } else {
-                if (!isEqual(firstFileData.get(key), secondFileData.get(key))) {
-                    treeOfDifference.add(createNode(key, "changed", firstFileData.get(key), secondFileData.get(key)));
-                } else {
-                    treeOfDifference.add(createNode(key, "unchanged", firstFileData.get(key), secondFileData.get(key)));
-                }
+                treeOfDifference.add(createNode(key, "unchanged", data1.get(key), data2.get(key)));
             }
         }
         return treeOfDifference;
@@ -41,13 +39,13 @@ public class Tree {
         return node;
     }
 
-    public static Set<String> getSortedKeys(Map<String, Object> firstFileData,
-                                            Map<String, Object> secondFileData) {
+    public static Set<String> getSortedKeys(Map<String, Object> data1,
+                                            Map<String, Object> data2) {
         Set<String> keys = new HashSet<>();
 
         Map<String, Object> unitedData = new HashMap<>();
-        unitedData.putAll(firstFileData);
-        unitedData.putAll(secondFileData);
+        unitedData.putAll(data1);
+        unitedData.putAll(data2);
 
         if (unitedData.size() == 0) {
             return keys;
